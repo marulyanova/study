@@ -14,40 +14,22 @@ int main()
         cout << 0;
         exit(0);
     }
-    vector<long long> x(m, 0);
-    for(long long i = 0; i < n; i++){
-        cin >> a >> b;
-        a--;
-        b--;
-        for (long long j = a; j <= b; j++){
-            if (x[j] != 0){
-                long long k = j + 1;
-                while (x[k] == x[j]){
-                    x[k] = 0;
-                    k++;
-                }
-                long long t = j - 1;
-                while(x[t] == x[j]){
-                    x[t] = 0;
-                    t--;
-                }
-                x[j] = 0;
-            }
-            x[j] = i + 1;
-        }
-    }
 
-    vector<long long> p(n, 0);
-    for (long long i = 0; i < m; i++){
-        if (x[i] > 0){
-            p[x[i] - 1]++;
+    vector<pair<long long, long long>> x;
+    for (long long i = 0; i < n; i++){
+        cin >> a >> b;
+        x.push_back(make_pair(a, b));
+
+        long long s = x.size();
+        long long j = 0;
+        while (j < s - 1){
+            if ((x[j].first <= a & x[j].second >= b) | (x[j].first >= a & x[j].second <= b) | (x[j].first <= a & x[j].second >= a) | (x[j].first <= b & x[j].second >= b)){
+                x.erase(x.begin() + j);
+                s--;
+                j--;
+            }
+            j++;
         }
     }
-    long long countt = 0;
-    for (auto i : p){
-        if (i){
-            countt++;
-        }
-    }
-    cout << countt;
+    cout << x.size();
 }
